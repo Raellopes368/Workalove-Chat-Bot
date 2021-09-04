@@ -2,12 +2,12 @@ import React from 'react';
 import Container from '../../components/Container';
 import ChatBot from '../../components/ChatBot';
 
-export default function Home(){
+export default function Home() {
   return (
     <>
-      <Container >
+      <Container>
         <ChatBot />
       </Container>
     </>
-  )
+  );
 }
