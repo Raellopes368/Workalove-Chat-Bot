@@ -1,0 +1,19 @@
+.formContainer {
+  width: 100%;
+  max-width: 450px;
+  border-radius: 20px 20px 0 0;
+  height: 100%;
+  background-color: rgb(62, 169, 231);
+  display: flex;
+  padding: 20px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+
+@media screen and (max-width: 600px) {
+  .formContainer {
+    border-radius: 0;
+  }
+}

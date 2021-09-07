@@ -1,0 +1,30 @@
+.answerContainer {
+  align-self: end;
+  background-color: #f5f9fa;
+  display: flex;
+  padding: 15px;
+  border-radius: 15px;
+  flex-direction: column;
+}
+
+.row{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+input {
+  width: 220px;
+  height: 30px;
+  margin-right: 15px;
+  border-radius: 5px;
+  border: solid 1px rgb(62, 169, 231);
+  outline: none;
+  padding: 15px;
+}
+
+
+.errorMessage {
+  color: #e04a3d;
+}
