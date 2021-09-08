@@ -5,7 +5,19 @@
   padding: 15px;
   border-radius: 15px;
   flex-direction: column;
+  position: relative;
 }
+
+.answerContainer::after {
+  content: "";
+  position: absolute;
+  top: 15px;
+  right: -15px;
+  border-bottom: 15px solid transparent;
+  border-left: 15px solid #f5f9fa;
+  border-radius: 0 0 5px 0;
+}
+
 
 .row{
   display: flex;
