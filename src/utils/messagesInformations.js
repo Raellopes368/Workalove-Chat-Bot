@@ -42,6 +42,6 @@ export default [
       'Você finalizou o teste. Fça uma avaliação sobre o processo que realizou até chegar aqui. Nós agradecemos!',
     field: 'satisfaction',
     dependent: 'email',
-    type: 'text',
+    type: 'satisfaction',
   },
 ];
