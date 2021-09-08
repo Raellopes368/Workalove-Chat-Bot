@@ -9,6 +9,7 @@
   overflow: auto;
   display: flex;
   flex-direction: column;
+  font-family: Roboto;
 }
 
 
@@ -16,4 +17,21 @@
   .formContainer {
     border-radius: 0;
   }
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+}
+
+
+.loading {
+  background-color: #f5f9fa;
+  padding: 15px;
+  border-radius: 15px;
+  width: 65px;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
