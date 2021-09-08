@@ -14,8 +14,11 @@ function AnswerField({
   handleSatisfaction,
   selected,
 }) {
-  function keyPress(key) {
-    if (key === 'Enter') handleRelease();
+  function keyPress(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      handleRelease();
+    }
   }
 
   function getBorderColor() {
@@ -41,7 +44,7 @@ function AnswerField({
                 borderColor: getBorderColor(),
               }}
               autoComplete="off"
-              onKeyPress={(e) => keyPress(e.key)}
+              onKeyPress={(e) => keyPress(e)}
             />
             <IoSend
               size={30}
