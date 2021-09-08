@@ -5,6 +5,7 @@ export default [
       'Olá, eu sou o Chatnilson, tudo bem? Para começarmos, preciso saber seu nome.',
     field: 'name',
     type: 'text',
+    placeholder: 'Nome e sobrenome',
   },
   {
     id: 1,
@@ -13,6 +14,7 @@ export default [
     field: 'uf',
     dependent: 'name',
     type: 'text',
+    placeholder: 'Uf',
   },
   {
     id: 2,
@@ -20,6 +22,7 @@ export default [
     field: 'city',
     dependent: 'uf',
     type: 'text',
+    placeholder: 'Cidade',
   },
   {
     id: 3,
@@ -28,6 +31,7 @@ export default [
     field: 'birth',
     dependent: 'city',
     type: 'date',
+    placeholder: '00/00/0000',
   },
   {
     id: 4,
@@ -35,6 +39,7 @@ export default [
     field: 'email',
     dependent: 'birth',
     type: 'email',
+    placeholder: 'Seu email',
   },
   {
     id: 5,

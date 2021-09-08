@@ -123,6 +123,7 @@ function Form() {
                     errors={errors}
                     handleSatisfaction={(rating) => handleSatisfaction(rating)}
                     selected={selectedRating}
+                    placeholder={info.placeholder}
                   />
                 </div>
               )

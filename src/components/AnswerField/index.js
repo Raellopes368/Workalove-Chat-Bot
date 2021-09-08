@@ -13,6 +13,7 @@ function AnswerField({
   touched,
   handleSatisfaction,
   selected,
+  placeholder,
 }) {
   function keyPress(event) {
     if (event.key === 'Enter') {
@@ -39,6 +40,7 @@ function AnswerField({
               name={name}
               type={type}
               autoFocus
+              placeholder={placeholder}
               style={{
                 borderWidth: 1,
                 borderColor: getBorderColor(),
@@ -67,11 +69,13 @@ AnswerField.propTypes = {
   errors: PropTypes.shape({}).isRequired,
   handleSatisfaction: PropTypes.func,
   selected: PropTypes.number,
+  placeholder: PropTypes.string,
 };
 
 AnswerField.defaultProps = {
   handleSatisfaction: () => {},
   selected: 0,
+  placeholder: '',
 };
 
 export default AnswerField;
