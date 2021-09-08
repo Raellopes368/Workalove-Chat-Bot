@@ -1,0 +1,57 @@
+.modalContainer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, .4);
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  z-index: 7;
+}
+
+.modalContent {
+  background-color: #f5f9fa;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  position: absolute;
+  animation-name: modalToBottom;
+  animation-duration: .5s;
+  top: 100px;
+  flex-direction: column;
+  max-width: 220px;
+  padding: 15px;
+  height: 200px;
+  text-align: left;
+}
+
+
+@keyframes modalToBottom {
+  from {
+    top: 0;
+  }
+  to {
+    top: 100px;
+  }
+}
+
+
+.closeModal {
+ background-color: rgb(62, 169, 231);
+ color: #f5f9fa;
+ border: 0;
+ outline: 0;
+ border-radius: 10px;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ padding: 15px;
+ align-self: center;
+}
+
+.closeModal:hover {
+   background-color: rgb(42, 127, 177);
+}
