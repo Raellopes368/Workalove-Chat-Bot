@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import ReactLoading from 'react-loading';
 import './styles.css';
 import yupErrorMessages from '../../utils/yupErrorMessages';
+import messagesInformations from '../../utils/messagesInformations';
 
 import QuestionField from '../QuestionField';
 import AnswerField from '../AnswerField';
@@ -59,75 +60,28 @@ function Form() {
     >
       {({ values, touched, isValid, errors }) => (
         <FormikForm className="formContainer">
-          <div className="fields">
-            <QuestionField text="Olá, eu sou o Chatnilson, tudo bem? Para começarmos, preciso saber seu nome." />
-            <AnswerField
-              name="name"
-              type="text"
-              values={values}
-              touched={touched}
-              isValid={isValid}
-              handleRelease={() => handleRelease('name', errors)}
-              errors={errors}
-            />
-          </div>
-          {realeaseds.name && (
-            <div className="fields">
-              <QuestionField
-                text={`Que satisfação, ${values.name}. Agora que sei seu nome, qual o estado que você mora?`}
-              />
-              <AnswerField
-                name="uf"
-                type="text"
-                values={values}
-                touched={touched}
-                isValid={isValid}
-                handleRelease={() => handleRelease('uf', errors)}
-                errors={errors}
-              />
-            </div>
-          )}
-          {realeaseds.uf && (
-            <div className="fields">
-              <QuestionField text="E a sua cidade." />
-              <AnswerField
-                name="city"
-                type="text"
-                values={values}
-                touched={touched}
-                isValid={isValid}
-                handleRelease={() => handleRelease('city', errors)}
-                errors={errors}
-              />
-            </div>
-          )}
-          {realeaseds.city && (
-            <div className="fields">
-              <QuestionField text="Legal, agora que sabemos sua cidade e estado. Quando foi que você nasceu?" />
-              <AnswerField
-                name="birth"
-                type="date"
-                values={values}
-                touched={touched}
-                isValid={isValid}
-                handleRelease={() => handleRelease('birty', errors)}
-                errors={errors}
-              />
-            </div>
-          )}
-          {realeaseds.birth && (
-            <div className="fields">
-              <QuestionField text="Agora me fala teu e-mail, por gentileza." />
-              <AnswerField
-                name="email"
-                type="email"
-                values={values}
-                touched={touched}
-                isValid={isValid}
-                handleRelease={() => handleRelease('email', errors)}
-                errors={errors}
-              />
-            </div>
+          {messagesInformations.map(
+            (info) =>
+              (realeaseds[info.dependent] || !info.dependent) && (
+                <div className="fields" key={`${info.id}`}>
+                  <QuestionField
+                    text={
+                      info.id === 1
+                        ? info.message.replace(/%%name%%/, values.name)
+                        : info.message
+                    }
+                  />
+                  <AnswerField
+                    name={info.field}
+                    type={info.type}
+                    values={values}
+                    touched={touched}
+                    isValid={isValid}
+                    handleRelease={() => handleRelease(info.field, errors)}
+                    errors={errors}
+                  />
+                </div>
+              )
           )}
           {loading && (
             <div className="loading">
