@@ -10,6 +10,7 @@ import api from '../../services/api';
 
 import QuestionField from '../QuestionField';
 import AnswerField from '../AnswerField';
+import Modal from '../Modal';
 
 function Form() {
   const { emptyField, shortField, fieldFormatEmail, fieldString } =
@@ -35,7 +36,9 @@ function Form() {
   const [realeaseds, setReleaseds] = useState({});
   const [loading, setLoading] = useState(false);
   const [loadingApi, setLoadingApi] = useState(false);
-  const [selectedRating, setSelectedRating] = useState(5);
+  const [selectedRating, setSelectedRating] = useState(0);
+  const [requisitionSuccess, setRequisitionSuccess] = useState(false);
+  const [requisitionError, setRequisitionError] = useState(false);
 
   function handleSatisfaction(value) {
     setSelectedRating(value);
@@ -59,15 +62,13 @@ function Form() {
     event.preventDefault();
     setLoadingApi(true);
     try {
-      const { data } = await api.post('/users', {
+      await api.post('/users', {
         ...values,
-        satisfactionLevel: selectedRating,
+        satisfactionLevel: selectedRating || 1,
       });
-      console.log(data);
-      alert('Sucesso, seus dados foram salvos com sucesso!');
+      setRequisitionSuccess(true);
     } catch (err) {
-      console.log(err);
-      alert('Oops, ');
+      setRequisitionError(true);
     } finally {
       setLoadingApi(false);
     }
@@ -89,6 +90,18 @@ function Form() {
           className="formContainer"
           onSubmit={(e) => handleSubmit(e, values)}
         >
+          {requisitionSuccess && (
+            <Modal
+              type="success"
+              handleClose={() => setRequisitionSuccess(false)}
+            />
+          )}
+          {requisitionError && (
+            <Modal
+              type="error"
+              handleClose={() => setRequisitionError(false)}
+            />
+          )}
           {messagesInformations.map(
             (info) =>
               (realeaseds[info.dependent] || !info.dependent) && (
