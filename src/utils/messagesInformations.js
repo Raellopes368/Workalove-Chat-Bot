@@ -4,6 +4,7 @@ export default [
     message:
       'Olá, eu sou o Chatnilson, tudo bem? Para começarmos, preciso saber seu nome.',
     field: 'name',
+    type: 'text',
   },
   {
     id: 1,
