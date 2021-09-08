@@ -39,7 +39,7 @@ export default [
   {
     id: 5,
     message:
-      'Você finalizou o teste. Fça uma avaliação sobre o processo que realizou até chegar aqui. Nós agradecemos!',
+      'Você finalizou o teste. Faça uma avaliação sobre o processo que realizou até chegar aqui. Nós agradecemos!',
     field: 'satisfaction',
     dependent: 'email',
     type: 'satisfaction',
