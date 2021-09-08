@@ -32,6 +32,11 @@ function Form() {
 
   const [realeaseds, setReleaseds] = useState({});
   const [loading, setLoading] = useState(false);
+  const [selected, setSelected] = useState(5);
+
+  function handleSatisfaction(value) {
+    setSelected(value);
+  }
 
   function handleRelease(name, errors) {
     if (errors[name]) {
@@ -44,7 +49,7 @@ function Form() {
         [name]: true,
       });
       setLoading(false);
-    }, 1000);
+    }, 400);
   }
 
   return (
@@ -79,6 +84,8 @@ function Form() {
                     isValid={isValid}
                     handleRelease={() => handleRelease(info.field, errors)}
                     errors={errors}
+                    handleSatisfaction={(rating) => handleSatisfaction(rating)}
+                    selected={selected}
                   />
                 </div>
               )
@@ -92,6 +99,11 @@ function Form() {
                 width={45}
               />
             </div>
+          )}
+          {realeaseds.email && (
+            <button className="btnSubmit" type="submit">
+              Salvar
+            </button>
           )}
         </FormikForm>
       )}
