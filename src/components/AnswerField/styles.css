@@ -1,11 +1,23 @@
 .answerContainer {
-  align-self: end;
+  align-self: flex-end;
   background-color: #f5f9fa;
   display: flex;
   padding: 15px;
   border-radius: 15px;
   flex-direction: column;
+  position: relative;
 }
+
+.answerContainer::after {
+  content: "";
+  position: absolute;
+  top: 15px;
+  right: -15px;
+  border-bottom: 15px solid transparent;
+  border-left: 15px solid #f5f9fa;
+  border-radius: 0 0 5px 0;
+}
+
 
 .row{
   display: flex;
@@ -24,6 +36,17 @@ input {
   padding: 15px;
 }
 
+@media screen and (max-width: 600px) {
+  input {
+    width: 200px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  input {
+    width: 150px;
+  }
+}
 
 .errorMessage {
   color: #e04a3d;

@@ -1,0 +1,7 @@
+.ratingBar {
+  display: flex;
+  flex-direction: row;
+  width: 140px;
+  padding: 5px;
+  justify-content: space-between;
+}
