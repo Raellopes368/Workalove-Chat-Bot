@@ -3,8 +3,10 @@ import { Formik, Form as FormikForm } from 'formik';
 import * as Yup from 'yup';
 import ReactLoading from 'react-loading';
 import './styles.css';
+
 import yupErrorMessages from '../../utils/yupErrorMessages';
 import messagesInformations from '../../utils/messagesInformations';
+import api from '../../services/api';
 
 import QuestionField from '../QuestionField';
 import AnswerField from '../AnswerField';
@@ -32,10 +34,11 @@ function Form() {
 
   const [realeaseds, setReleaseds] = useState({});
   const [loading, setLoading] = useState(false);
-  const [selected, setSelected] = useState(5);
+  const [loadingApi, setLoadingApi] = useState(false);
+  const [selectedRating, setSelectedRating] = useState(5);
 
   function handleSatisfaction(value) {
-    setSelected(value);
+    setSelectedRating(value);
   }
 
   function handleRelease(name, errors) {
@@ -52,6 +55,24 @@ function Form() {
     }, 400);
   }
 
+  async function handleSubmit(event, values) {
+    event.preventDefault();
+    setLoadingApi(true);
+    try {
+      const { data } = await api.post('/users', {
+        ...values,
+        satisfactionLevel: selectedRating,
+      });
+      console.log(data);
+      alert('Sucesso, seus dados foram salvos com sucesso!');
+    } catch (err) {
+      console.log(err);
+      alert('Oops, ');
+    } finally {
+      setLoadingApi(false);
+    }
+  }
+
   return (
     <Formik
       initialValues={{
@@ -64,7 +85,10 @@ function Form() {
       validationSchema={yupSchema}
     >
       {({ values, touched, isValid, errors }) => (
-        <FormikForm className="formContainer">
+        <FormikForm
+          className="formContainer"
+          onSubmit={(e) => handleSubmit(e, values)}
+        >
           {messagesInformations.map(
             (info) =>
               (realeaseds[info.dependent] || !info.dependent) && (
@@ -85,7 +109,7 @@ function Form() {
                     handleRelease={() => handleRelease(info.field, errors)}
                     errors={errors}
                     handleSatisfaction={(rating) => handleSatisfaction(rating)}
-                    selected={selected}
+                    selected={selectedRating}
                   />
                 </div>
               )
@@ -102,7 +126,16 @@ function Form() {
           )}
           {realeaseds.email && (
             <button className="btnSubmit" type="submit">
-              Salvar
+              {loadingApi ? (
+                <ReactLoading
+                  type="spin"
+                  color="rgb(62, 169, 231)"
+                  height={25}
+                  width={25}
+                />
+              ) : (
+                'Salvar'
+              )}
             </button>
           )}
         </FormikForm>
