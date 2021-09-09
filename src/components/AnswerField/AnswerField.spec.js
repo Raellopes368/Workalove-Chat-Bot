@@ -1,13 +1,15 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, cleanup } from '@testing-library/react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import AnswerField from '.';
 
+afterEach(cleanup);
+
 describe('AnswerField', () => {
-  test('Ao pressionar o botão, deve informar uma mensagem de erro', () => {
+  it('Verifica se os elementos estão renderizando corretamente', () => {
     const schema = Yup.object().shape({
-      name: Yup.string().required('Informe um valor válido'),
+      name: Yup.string().required('Este campo é obrigatório'),
     });
 
     const element = render(
@@ -18,7 +20,7 @@ describe('AnswerField', () => {
               name="name"
               type="text"
               touched={touched}
-              handleRelease={() => handleRelease('name', errors)}
+              handleRelease={() => {}}
               errors={errors}
               handleSatisfaction={() => {}}
               placeholder="Seu nome"
@@ -28,12 +30,15 @@ describe('AnswerField', () => {
       </Formik>
     );
 
-    const textError = screen.queryByText('Informe um valor válido');
+    const textError = screen.queryByText('Este campo é obrigatório');
 
     expect(textError).not.toBeInTheDocument();
 
-    const button = element.container.querySelector('svg');
+    const input = element.container.querySelector('input');
 
-    expect(button).toBeInTheDocument();
+    expect(input).toBeInTheDocument();
+
+    expect(input).toHaveFocus();
+
   });
 });
