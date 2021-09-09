@@ -2,12 +2,17 @@
 
 ## Indice
 
+- [Preview](#Preview)
 - [Descrição](#descrição)
 - [Pré-requisitos](#pré-requisitos)
 - [Instalação](#instalação)
 - [Configurações](#configurações)
 - [Inicialização](#inicializando)
 - [Pacotes principais](#pacotes-principais)
+
+## Preview
+
+![](./src/assets/preview.gif)
 
 ## Descrição
 
@@ -23,6 +28,7 @@ para mais detalhes.
 - [x] Envio de dados pessoais
 - [x] Consumo de API
 - [x] Validação de campos
+- [x] Testes básicos de componentes
 
 ## Pré-requisitos
 
@@ -54,6 +60,20 @@ ou com `npm`:
 ```bash
 npm install
 ```
+
+## Tests
+
+Para rodar os testes, use os comandos abaixo de acordo com seu gerenciador de pacotes:
+
+```bash
+  yarn test
+```
+ou
+
+```bash
+  npm run test
+```
+
 
 ## Inicializando
 
