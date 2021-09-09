@@ -3,6 +3,7 @@ import { Field, ErrorMessage } from 'formik';
 import { IoSend } from 'react-icons/io5';
 import PropTypes from 'prop-types';
 import SatisfactionRating from '../SatisfactionRating';
+import yupSchema from '../../utils/yupSchema';
 import './styles.css';
 
 function AnswerField({
@@ -14,12 +15,35 @@ function AnswerField({
   handleSatisfaction,
   selected,
   placeholder,
+  values,
+  realeaseds,
 }) {
+  async function confirmYupSchema() {
+    try {
+      await yupSchema.validate({ [name]: values[name] });
+      return true;
+    } catch (error) {
+      const { path } = error;
+      if (path === name) return false;
+      return true;
+    }
+  }
+  async function handleConfirm() {
+    const hasCorrect = await confirmYupSchema();
+    if (!hasCorrect) return;
+    handleRelease();
+  }
   function keyPress(event) {
     if (event.key === 'Enter') {
-      event.preventDefault();
-      handleRelease();
+      handleConfirm();
     }
+  }
+
+  function blockClickIfReleased() {
+    if (realeaseds[name]) {
+      return;
+    }
+    handleConfirm();
   }
 
   function getBorderColor() {
@@ -39,19 +63,22 @@ function AnswerField({
             <Field
               name={name}
               type={type}
-              autoFocus
               placeholder={placeholder}
+              className={realeaseds[name] ? 'disable' : ''}
               style={{
                 borderWidth: 1,
                 borderColor: getBorderColor(),
               }}
               autoComplete="off"
               onKeyPress={(e) => keyPress(e)}
+              autoFocus
+              readOnly={!!realeaseds[name]}
             />
             <IoSend
               size={30}
               color="rgb(62, 169, 231)"
-              onClick={() => handleRelease()}
+              onClick={() => blockClickIfReleased()}
+              className={realeaseds[name] ? 'disableBtn' : ''}
             />
           </div>
           <ErrorMessage className="errorMessage" component="span" name={name} />
@@ -70,6 +97,8 @@ AnswerField.propTypes = {
   handleSatisfaction: PropTypes.func,
   selected: PropTypes.number,
   placeholder: PropTypes.string,
+  values: PropTypes.shape({}).isRequired,
+  realeaseds: PropTypes.shape({}).isRequired,
 };
 
 AnswerField.defaultProps = {

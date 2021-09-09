@@ -1,45 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Formik, Form as FormikForm } from 'formik';
-import * as Yup from 'yup';
 import ReactLoading from 'react-loading';
 import './styles.css';
 
-import yupErrorMessages from '../../utils/yupErrorMessages';
 import messagesInformations from '../../utils/messagesInformations';
 import api from '../../services/api';
+
+import yupSchema from '../../utils/yupSchema';
 
 import QuestionField from '../QuestionField';
 import AnswerField from '../AnswerField';
 import Modal from '../Modal';
 
 function Form() {
-  const { emptyField, shortField, fieldFormatEmail, fieldString } =
-    yupErrorMessages;
-  const yupSchema = Yup.object().shape({
-    name: Yup.string(fieldString).min(2, 'Muito curto').required(emptyField),
-    uf: Yup.string(fieldString).when('name', (name, field) =>
-      name ? field.required(emptyField) : field
-    ),
-    city: Yup.string(fieldString)
-      .min(2, shortField)
-      .when('uf', (uf, field) => (uf ? field.required(emptyField) : field)),
-    birth: Yup.date(emptyField).when('city', (city, field) =>
-      city ? field.required(emptyField) : field
-    ),
-    email: Yup.string()
-      .email(fieldFormatEmail)
-      .when('birth', (birth, field) =>
-        birth ? field.required(emptyField) : field
-      ),
-  });
-
   const [realeaseds, setReleaseds] = useState({});
   const [loading, setLoading] = useState(false);
   const [loadingApi, setLoadingApi] = useState(false);
   const [selectedRating, setSelectedRating] = useState(0);
   const [requisitionSuccess, setRequisitionSuccess] = useState(false);
   const [requisitionError, setRequisitionError] = useState(false);
-
+  const containerRef = useRef(null);
   function handleSatisfaction(value) {
     setSelectedRating(value);
   }
@@ -48,18 +28,24 @@ function Form() {
     if (errors[name]) {
       return;
     }
+
     setLoading(true);
     setTimeout(() => {
       setReleaseds({
         ...realeaseds,
         [name]: true,
       });
+      if (containerRef.current) {
+        containerRef.current.scrollTo({
+          top: containerRef.current.scrollHeight,
+          behavior: 'smooth',
+        });
+      }
       setLoading(false);
     }, 400);
   }
 
-  async function handleSubmit(event, values) {
-    event.preventDefault();
+  async function handleSubmit(values, actions) {
     setLoadingApi(true);
     try {
       await api.post('/users', {
@@ -67,6 +53,7 @@ function Form() {
         satisfactionLevel: selectedRating || 1,
       });
       setRequisitionSuccess(true);
+      actions.resetForm();
     } catch (err) {
       setRequisitionError(true);
     } finally {
@@ -84,16 +71,17 @@ function Form() {
         email: '',
       }}
       validationSchema={yupSchema}
+      onSubmit={(values, actions) => handleSubmit(values, actions)}
     >
-      {({ values, touched, isValid, errors }) => (
-        <FormikForm
-          className="formContainer"
-          onSubmit={(e) => handleSubmit(e, values)}
-        >
+      {({ values, touched, isValid, errors, setErrors }) => (
+        <FormikForm className="formContainer" ref={containerRef}>
           {requisitionSuccess && (
             <Modal
               type="success"
-              handleClose={() => setRequisitionSuccess(false)}
+              handleClose={() => {
+                setRequisitionSuccess(false);
+                setReleaseds({});
+              }}
             />
           )}
           {requisitionError && (
@@ -124,6 +112,8 @@ function Form() {
                     handleSatisfaction={(rating) => handleSatisfaction(rating)}
                     selected={selectedRating}
                     placeholder={info.placeholder}
+                    setErrors={setErrors}
+                    realeaseds={realeaseds}
                   />
                 </div>
               )
