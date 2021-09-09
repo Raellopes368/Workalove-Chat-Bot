@@ -52,3 +52,12 @@ input {
   color: #e04a3d;
   margin-top: 15px;
 }
+
+.disable {
+  cursor: not-allowed;
+  background-color: #ddd;
+}
+
+.disableBtn {
+  cursor: not-allowed;
+}
