@@ -14,7 +14,7 @@ describe('AnswerField', () => {
 
     const element = render(
       <Formik initialValues={{ name: '' }} validationSchema={schema}>
-        {({ touched, errors  }) => (
+        {({ touched, errors, values  }) => (
           <Form>
             <AnswerField
               name="name"
@@ -24,6 +24,8 @@ describe('AnswerField', () => {
               errors={errors}
               handleSatisfaction={() => {}}
               placeholder="Seu nome"
+              realeaseds={{}}
+              values={values}
               />
           </Form>
         )}
@@ -39,6 +41,5 @@ describe('AnswerField', () => {
     expect(input).toBeInTheDocument();
 
     expect(input).toHaveFocus();
-
   });
 });
