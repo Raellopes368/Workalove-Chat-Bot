@@ -48,6 +48,7 @@ function Form() {
     if (errors[name]) {
       return;
     }
+
     setLoading(true);
     setTimeout(() => {
       setReleaseds({
@@ -84,12 +85,10 @@ function Form() {
         email: '',
       }}
       validationSchema={yupSchema}
+      onSubmit={(e) => handleSubmit(e, {})}
     >
       {({ values, touched, isValid, errors }) => (
-        <FormikForm
-          className="formContainer"
-          onSubmit={(e) => handleSubmit(e, values)}
-        >
+        <FormikForm className="formContainer">
           {requisitionSuccess && (
             <Modal
               type="success"
